@@ -20,7 +20,7 @@ export default function Home() {
 
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left text-gray-600">
           <li className="mb-2 tracking-[-.01em]">
-            Lihat rekap lari per grup, per individu, dan semua aktivitas.
+            Lihat rekap lari per grup, dan per individu.
           </li>
           <li className="tracking-[-.01em]">
             Data langsung dari Google Form peserta lari.
