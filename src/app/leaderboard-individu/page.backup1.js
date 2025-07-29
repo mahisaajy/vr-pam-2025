@@ -20,32 +20,25 @@ export default function LeaderboardIndividuPage() {
           complete: (results) => {
             const rows = results.data;
 
+            // Inisialisasi map untuk individu
             const allIndividuals = {};
 
             rows.forEach((row) => {
               const name = row['Nama Peserta']?.trim();
-              const group = row['Pilih Nama Group']?.trim();
               const kmStr = row['Jarak Lari yang Diselesaikan (dalam Kilometer)']?.trim();
               const km = parseFloat(kmStr);
 
               if (!name || isNaN(km)) return;
 
               if (!allIndividuals[name]) {
-                allIndividuals[name] = {
-                  totalKm: 0,
-                  group: group || '-', // fallback kalau group kosong
-                };
+                allIndividuals[name] = 0;
               }
-
-              allIndividuals[name].totalKm += km;
+              allIndividuals[name] += km;
             });
 
+            // Ubah ke array dan urutkan
             const sortedData = Object.entries(allIndividuals)
-              .map(([name, data]) => ({
-                name,
-                group: data.group,
-                totalKm: data.totalKm,
-              }))
+              .map(([name, totalKm]) => ({ name, totalKm }))
               .sort((a, b) => b.totalKm - a.totalKm);
 
             setIndividualData(sortedData);
@@ -60,15 +53,18 @@ export default function LeaderboardIndividuPage() {
         <title>Leaderboard Individu - Virtual Run RW 10</title>
       </Head>
 
+      {/* Header */}
       <header className="flex justify-between items-center px-6 py-4 border-b bg-white">
         <h2 className="text-lg font-semibold">Virtual Run RW 10</h2>
         <nav className="space-x-4 text-sm">
           <Link href="/" className="text-gray-700 hover:underline">Beranda</Link>
           <Link href="/leaderboard-group" className="text-gray-700 hover:underline">Leaderboard Group</Link>
           <Link href="/leaderboard-individu" className="text-gray-700 hover:underline font-bold">Leaderboard Individu</Link>
+          {/* <Link href="/aktivitas" className="text-gray-700 hover:underline">Aktivitas</Link> */}
         </nav>
       </header>
 
+      {/* Konten Utama */}
       <main className="p-6">
         <h1 className="text-2xl font-bold mb-4">🏃‍♂️ Leaderboard Lari per Individu</h1>
 
@@ -79,7 +75,6 @@ export default function LeaderboardIndividuPage() {
                 <tr>
                   <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">#</th>
                   <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Nama Peserta</th>
-                  <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Group</th>
                   <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Total KM</th>
                 </tr>
               </thead>
@@ -88,7 +83,6 @@ export default function LeaderboardIndividuPage() {
                   <tr key={item.name} className="hover:bg-gray-50">
                     <td className="border border-gray-200 px-4 py-2">{index + 1}</td>
                     <td className="border border-gray-200 px-4 py-2">{item.name}</td>
-                    <td className="border border-gray-200 px-4 py-2">{item.group}</td>
                     <td className="border border-gray-200 px-4 py-2">{item.totalKm.toFixed(2)}</td>
                   </tr>
                 ))}
