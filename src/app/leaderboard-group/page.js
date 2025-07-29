@@ -64,9 +64,9 @@ export default function LeaderboardPage() {
         <h2 className="text-lg font-semibold">Virtual Run RW 10</h2>
         <nav className="space-x-4 text-sm">
           <Link href="/" className="text-gray-700 hover:underline">Beranda</Link>
-          <Link href="/leaderboard-group" className="text-gray-700 hover:underline">Grup</Link>
-          <Link href="/leaderboard-individu" className="text-gray-700 hover:underline">Individu</Link>
-          <Link href="/aktivitas" className="text-gray-700 hover:underline">Aktivitas</Link>
+          <Link href="/leaderboard-group" className="text-gray-700 hover:underline font-bold">Leaderboard Group</Link>
+          <Link href="/leaderboard-individu" className="text-gray-700 hover:underline">Leaderboard Individu</Link>
+          {/* <Link href="/aktivitas" className="text-gray-700 hover:underline">Aktivitas</Link> */}
         </nav>
       </header>
 

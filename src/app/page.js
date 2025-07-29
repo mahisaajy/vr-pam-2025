@@ -28,16 +28,22 @@ export default function Home() {
         </ol>
 
         {/* Tombol Form Lapor Aktivitas */}
-        <div className="w-full flex justify-center">
+        {/* <div className="w-full flex justify-center">
           <Link
             href="https://s.id/vr-rw10"
             className="rounded-full border border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
           >
             📋 Form Lapor Aktivitas
           </Link>
-        </div>
+        </div> */}
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <Link
+            href="https://s.id/vr-rw10"
+            className="rounded-full border border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
+          >
+            📋 Form Lapor Aktivitas
+          </Link>
           <Link
             href="/leaderboard-group"
             className="rounded-full border border-transparent transition-colors flex items-center justify-center bg-black text-white gap-2 hover:bg-[#383838] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
@@ -50,12 +56,12 @@ export default function Home() {
           >
             🧍 Leaderboard Individu
           </Link>
-          <Link
+          {/* <Link
             href="/aktivitas"
             className="rounded-full border border-black/[.08] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
           >
             📋 Semua Aktivitas
-          </Link>
+          </Link> */}
         </div>
       </main>
 
