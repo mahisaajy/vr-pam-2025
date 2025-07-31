@@ -24,26 +24,28 @@ export default function LeaderboardIndividuPage() {
 
             rows.forEach((row) => {
               const name = row['Nama Peserta']?.trim();
-              const group = row['Pilih Nama Group']?.trim() || '-';
+              const group = row['Pilih Nama Group']?.trim();
               const kmStr = row['Jarak Lari yang Diselesaikan (dalam Kilometer)']?.trim();
               const km = parseFloat(kmStr);
 
               if (!name || isNaN(km)) return;
 
-              const key = `${name}|${group}`; // Kombinasi unik nama + grup
-
-              if (!allIndividuals[key]) {
-                allIndividuals[key] = {
-                  name,
-                  group,
+              if (!allIndividuals[name]) {
+                allIndividuals[name] = {
                   totalKm: 0,
+                  group: group || '-', // fallback kalau group kosong
                 };
               }
 
-              allIndividuals[key].totalKm += km;
+              allIndividuals[name].totalKm += km;
             });
 
-            const sortedData = Object.values(allIndividuals)
+            const sortedData = Object.entries(allIndividuals)
+              .map(([name, data]) => ({
+                name,
+                group: data.group,
+                totalKm: data.totalKm,
+              }))
               .sort((a, b) => b.totalKm - a.totalKm);
 
             setIndividualData(sortedData);
@@ -83,7 +85,7 @@ export default function LeaderboardIndividuPage() {
               </thead>
               <tbody>
                 {individualData.map((item, index) => (
-                  <tr key={`${item.name}-${item.group}`} className="hover:bg-gray-50">
+                  <tr key={item.name} className="hover:bg-gray-50">
                     <td className="border border-gray-200 px-4 py-2">{index + 1}</td>
                     <td className="border border-gray-200 px-4 py-2">{item.name}</td>
                     <td className="border border-gray-200 px-4 py-2">{item.group}</td>
