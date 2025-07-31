@@ -26,11 +26,13 @@ export default function LeaderboardIndividuPage() {
               const name = row['Nama Peserta']?.trim();
               const group = row['Pilih Nama Group']?.trim() || '-';
               const kmStr = row['Jarak Lari yang Diselesaikan (dalam Kilometer)']?.trim();
+              const statusValidasi = row['Status Validasi']?.trim(); // Tambahan kolom status
               const km = parseFloat(kmStr);
 
-              if (!name || isNaN(km)) return;
+              // Skip kalau tidak valid atau nilai tidak sesuai
+              if (!name || isNaN(km) || statusValidasi === 'Tidak Valid') return;
 
-              const key = `${name}|${group}`; // Kombinasi unik nama + grup
+              const key = `${name}|${group}`;
 
               if (!allIndividuals[key]) {
                 allIndividuals[key] = {
