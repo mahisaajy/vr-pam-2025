@@ -20,23 +20,13 @@ export default function LeaderboardPage() {
           complete: (results) => {
             const rows = results.data;
 
-            // Daftar grup yang valid sesuai gambar
-            const validGroups = [
-              'RT01',
-              'RT02',
-              'RT03 - Group 1',
-              'RT03 - Group 2',
-              'RT04',
-              'RT06 - Group 1',
-              'RT06 - Group 2',
-              'RT07 - Group 1',
-              'RT07 - Group 2',
-              'RT08 - Group 1',
-              'RT08 - Group 2',
-            ];
-
-            const groupTotals = {};
-            validGroups.forEach((g) => (groupTotals[g] = 0));
+            const allGroups = {};
+            for (let rt = 1; rt <= 8; rt++) {
+              for (let g = 1; g <= 2; g++) {
+                const name = `RT${rt.toString().padStart(2, '0')} - Group ${g}`;
+                allGroups[name] = 0;
+              }
+            }
 
             rows.forEach((row) => {
               const group = row['Pilih Nama Group']?.trim();
@@ -44,14 +34,15 @@ export default function LeaderboardPage() {
               const statusValidasi = row['Status Validasi']?.trim();
               const km = parseFloat(kmStr);
 
+              // Skip jika data tidak valid
               if (!group || isNaN(km) || statusValidasi === 'Tidak Valid') return;
 
-              if (group in groupTotals) {
-                groupTotals[group] += km;
+              if (group in allGroups) {
+                allGroups[group] += km;
               }
             });
 
-            const sortedData = Object.entries(groupTotals)
+            const sortedData = Object.entries(allGroups)
               .map(([group, totalKm]) => ({ group, totalKm }))
               .sort((a, b) => b.totalKm - a.totalKm);
 
