@@ -30,48 +30,60 @@ export default function LeaderboardIndividuPage() {
   // };
 
   const stravaProfiles = {
-    "Adam Juliansyah": "151014622",
-    "Ami Mudjiastuti": "82154780",
-    "Andar": "174293159",
-    "Ari Rusiandari": "178531974",
-    "Aries Purwanto": "68255983",
-    "Arifki Fitra Rubiansyah": "141987917",
-    // "Arswendy Aminuddin": "81057629",
-    "Bambang": "178771629",
-    "Bilal": "128052116",
     "Budi": "178736634",
-    "Elis": "177641184",
-    "Endang": "178837611",
-    "Fakhri Surya Pratama": "165625640",
-    "Febrian Galih": "114859072",
-    "Fernida Kristanti": "176738044",
+    "Aji": "179228085",
+    "Sarah": "179222077",
+    "Wiwit": "108366480",
     "Handoyo": "176388185",
-    "Hisabudin": "177432941",
     "Jajang": "158812309",
-    "Juansyah Traganov": "178951763",
-    "Kokom Komariah": "177611991",
-    "Lilis Minkeliswati": "179040728",
+    "Ivan": "96717522",
     "Ludi": "178974626",
-    "Lutfi Darajat": "144893039",
-    "Mahisa Ajy Kusuma": "33351351",
-    "Nur Rokhim": "178531998",
-    "Oktari Wahyuni": "178174293",
-    "okti artika rakhmah": "179297617",
-    "Putri Melati": "64362772",
-    "Ramdhani Adji": "179228085",
-    "Rani Anggriani": "179573110",
-    "Ria Arman": "178743946",
-    "Rinto Hermawan": "72825198",
-    "Riska Mustikasari": "178624937",
+    "Endang": "178837611",
     "Sandy Ramadhan": "63852539",
-    "Sarah Puspita": "179222077",
-    "Sumarna Anramus": "173711374",
-    "Toid Hakim": "178906479",
-    "Tri Setiyoto": "74799275",
-    "Tyo Rahardjo": "177361693",
+    "Juansyah Traganov": "178951763",
+    "Arifki Fitrah Rubiansyah": "141987917",
+    "Kokom Komariah": "177611991",
+    "Ami Mudjiastuti": "82154780",
+    "Mahisa Ajy Kusuma": "33351351",
+    "Ari Rusiandari": "178531974",
     "Widiasih Nurhayati": "178532500",
-    "muhammad rizky": "173692644"
+    "Riska Mustikasari": "178624937",
+    "Nur Rokhim": "178531998",
+    "Elis": "177641184",
+    "Bilal": "128052116",
+    "Tauhid": "178906479",
+    "Hakim": "165961880",
+    "Mba Diyu": "179628887",
+    "Tante Ida": "176738044",
+    "Mas Odeng": "179687245",
+    "Kiki": "173692644",
+    "Galih": "114859072",
+    "Rinto": "72825198",
+    "Mba Yuni": "178174293",
+    "Bu Irma": "179534640",
+    "Upi": "144893039",
+    "Adam": "151014622",
+    "Aries Purwanto": "68255983",
+    "Okti Artika Rakhmah": "179297617",
+    "Fakhri Surya Pratama": "165625640",
+    "Djoni Waskito": "176716443",
+    "Tri Setiyoto": "74799275",
+    "Hisabudin": "177432941",
+    "Rani Anggriani": "179573110",
+    "Indra Feriadi": "178714846",
+    "Setyorahardjo": "177361693",
+    "Bambang": "178771629",
+    "Heri S.": "177365491",
+    "Ahmad": "176917385",
+    "Asep": "178879574",
+    "Putri Melati": "64362772",
+    "Andar": "174293159",
+    "Asep E.": "170453553",
+    "Sumarna": "173711374",
+    "Arman K.": "88668773",
+    "Ria": "178743946"
   };
+
 
 
   const stravaIconUrl = "https://cdn.worldvectorlogo.com/logos/strava-2.svg";
@@ -178,7 +190,10 @@ export default function LeaderboardIndividuPage() {
                     </td>
 
 
-                    <td className="border border-gray-200 px-4 py-2">{item.group}</td>
+                    {/* <td className="border border-gray-200 px-4 py-2">{item.group}</td> */}
+                    <td className="border border-gray-200 px-4 py-2">
+                      {item.group?.replace(/\s+/g, '')}
+                    </td>
                     <td className="border border-gray-200 px-4 py-2">{item.totalKm.toFixed(2)}</td>
                   </tr>
                 ))}
