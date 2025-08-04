@@ -170,7 +170,7 @@ export default function LeaderboardIndividuPage() {
                     <td className="border border-gray-200 px-4 py-2">{index + 1}</td>
                     {/* <td className="border border-gray-200 px-4 py-2">{item.name}</td> */}
                     <td className="border border-gray-200 px-4 py-2">
-                      <div className="flex items-center space-x-2 whitespace-nowrap overflow-hidden">
+                      <div className="flex flex-wrap items-center gap-2 break-all">
                         <span>{item.name}</span>
                         {stravaProfiles[item.name] && (
                           <a
@@ -188,6 +188,7 @@ export default function LeaderboardIndividuPage() {
                         )}
                       </div>
                     </td>
+
 
 
                     {/* <td className="border border-gray-200 px-4 py-2">{item.group}</td> */}
