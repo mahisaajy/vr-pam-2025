@@ -157,23 +157,26 @@ export default function LeaderboardIndividuPage() {
                   <tr key={`${item.name}-${item.group}`} className="hover:bg-gray-50">
                     <td className="border border-gray-200 px-4 py-2">{index + 1}</td>
                     {/* <td className="border border-gray-200 px-4 py-2">{item.name}</td> */}
-                    <td className="border border-gray-200 px-4 py-2 flex items-center space-x-2">
-  <span>{item.name}</span>
-  {stravaProfiles[item.name] && (
-    <a
-      href={`https://www.strava.com/athletes/${stravaProfiles[item.name]}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Lihat di Strava"
-    >
-      <img
-        src={stravaIconUrl}
-        alt="Strava"
-        className="w-4 h-4 opacity-80 hover:opacity-100"
-      />
-    </a>
-  )}
-</td>
+                    <td className="border border-gray-200 px-4 py-2">
+                      <div className="flex items-center space-x-2 whitespace-nowrap overflow-hidden">
+                        <span>{item.name}</span>
+                        {stravaProfiles[item.name] && (
+                          <a
+                            href={`https://www.strava.com/athletes/${stravaProfiles[item.name]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Lihat di Strava"
+                          >
+                            <img
+                              src={stravaIconUrl}
+                              alt="Strava"
+                              className="w-4 h-4 opacity-80 hover:opacity-100"
+                            />
+                          </a>
+                        )}
+                      </div>
+                    </td>
+
 
                     <td className="border border-gray-200 px-4 py-2">{item.group}</td>
                     <td className="border border-gray-200 px-4 py-2">{item.totalKm.toFixed(2)}</td>
