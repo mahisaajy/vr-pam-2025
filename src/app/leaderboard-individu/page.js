@@ -31,6 +31,7 @@ export default function LeaderboardIndividuPage() {
 
   const stravaProfiles = {
     "Budi": "178736634",
+    "Yoga": "180437296",
     "Aji": "179228085",
     "Sarah": "179222077",
     "Wiwit": "108366480",
@@ -51,6 +52,7 @@ export default function LeaderboardIndividuPage() {
     "Nur Rokhim": "178531998",
     "Elis": "177641184",
     "Bilal": "128052116",
+    "Reky Pramudia": "",
     "Tauhid": "178906479",
     "Hakim": "165961880",
     "Mba Diyu": "179628887",
@@ -70,6 +72,7 @@ export default function LeaderboardIndividuPage() {
     "Tri Setiyoto": "74799275",
     "Hisabudin": "177432941",
     "Rani Anggriani": "179573110",
+    "Taufik Hidayat": "177363890",
     "Indra Feriadi": "178714846",
     "Setyorahardjo": "177361693",
     "Bambang": "178771629",
@@ -84,6 +87,12 @@ export default function LeaderboardIndividuPage() {
     "Ria": "178743946"
   };
 
+  const pesertaBelumAdaAktivitas = {
+    "Budi": "RT01",
+    "Sarah": "RT01",
+    "Hakim": "RT04",
+    "Taufik Hidayat": "RT07"
+  };
 
 
   const stravaIconUrl = "https://cdn.worldvectorlogo.com/logos/strava-2.svg";
@@ -100,40 +109,54 @@ export default function LeaderboardIndividuPage() {
           header: true,
           complete: (results) => {
             const rows = results.data;
-
             const allIndividuals = {};
 
+            // Inisialisasi semua peserta dari stravaProfiles (KM = 0)
+            Object.keys(stravaProfiles).forEach((name) => {
+              allIndividuals[name] = {
+                name,
+                group: pesertaBelumAdaAktivitas[name] || '-', // isi group dari pesertaTambahan kalau ada
+                totalKm: 0
+              };
+            });
+
+
+            // // Inisialisasi semua peserta dengan KM = 0
+            // pesertaTetap.forEach((name) => {
+            //   allIndividuals[name] = {
+            //     name,
+            //     group: '-', // nanti bisa diisi dari master list kalau ada
+            //     totalKm: 0,
+            //   };
+            // });
+
+            // Update dari CSV
             rows.forEach((row) => {
               const name = row['Nama Peserta']?.trim();
               const group = row['Pilih Nama Group']?.trim() || '-';
               const kmStr = row['Jarak Lari yang Diselesaikan (dalam Kilometer)']?.trim();
-              const statusValidasi = row['Status Validasi']?.trim(); // Tambahan kolom status
+              const statusValidasi = row['Status Validasi']?.trim();
               const km = parseFloat(kmStr);
 
-              // Skip kalau tidak valid atau nilai tidak sesuai
               if (!name || isNaN(km) || statusValidasi === 'Tidak Valid') return;
 
-              const key = `${name}|${group}`;
-
-              if (!allIndividuals[key]) {
-                allIndividuals[key] = {
-                  name,
-                  group,
-                  totalKm: 0,
-                };
+              if (!allIndividuals[name]) {
+                allIndividuals[name] = { name, group, totalKm: 0 };
               }
 
-              allIndividuals[key].totalKm += km;
+              allIndividuals[name].group = group;
+              allIndividuals[name].totalKm += km;
             });
 
-            const sortedData = Object.values(allIndividuals)
-              .sort((a, b) => b.totalKm - a.totalKm);
+            // Sort data
+            const sortedData = Object.values(allIndividuals).sort((a, b) => b.totalKm - a.totalKm);
 
             setIndividualData(sortedData);
           },
         });
       });
   }, []);
+
 
   return (
     <>
