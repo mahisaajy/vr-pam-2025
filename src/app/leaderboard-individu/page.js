@@ -170,6 +170,7 @@ export default function LeaderboardIndividuPage() {
           <Link href="/" className="text-gray-700 hover:underline">Beranda</Link>
           <Link href="/leaderboard-group" className="text-gray-700 hover:underline">Leaderboard Group</Link>
           <Link href="/leaderboard-individu" className="text-gray-700 hover:underline font-bold">Leaderboard Individu</Link>
+          <Link href="/statistik" className="text-gray-700 hover:underline">Statistik</Link>
         </nav>
       </header>
 
