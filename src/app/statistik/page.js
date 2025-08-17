@@ -14,9 +14,10 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// Registrasi Chart.js
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Registrasi Chart.js + plugin datalabels
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
 export default function StatistikPage() {
   const [chartData, setChartData] = useState(null);
@@ -24,21 +25,17 @@ export default function StatistikPage() {
   const csvUrl =
     'https://docs.google.com/spreadsheets/d/1v8O9eNMV1V-X_faePxAh-DGhPZAune4S_0oDGKXlfTw/gviz/tq?tqx=out:csv';
 
-  // Parser tanggal yang tahan format "MM/DD/YYYY" atau "DD/MM/YYYY"
   function parseDateSmart(input) {
     if (!input) return null;
-    const s = String(input).trim().replace(/^"|"$/g, ''); // buang quote CSV jika ada
+    const s = String(input).trim().replace(/^"|"$/g, '');
 
-    // Kalau sudah ISO atau ada "T", biarkan JS parse
     if (/^\d{4}-\d{2}-\d{2}/.test(s) || s.includes('T')) {
       const d = new Date(s);
       return isNaN(d) ? null : d;
     }
 
-    // Ambil hanya bagian tanggal (buang waktu kalau ada)
     const onlyDate = s.split(' ')[0];
     const parts = onlyDate.split(/[\/\-\.]/).map(p => p.trim());
-
     if (parts.length !== 3) return null;
 
     let a = parseInt(parts[0], 10);
@@ -47,24 +44,19 @@ export default function StatistikPage() {
 
     if ([a, b, c].some(n => isNaN(n))) return null;
 
-    // Heuristik:
-    // - Jika a > 12 -> pasti DD/MM/YYYY
-    // - Jika b > 12 -> pasti MM/DD/YYYY
-    // - Lainnya ambigu -> default ke MM/DD/YYYY (sesuai contohmu "8/3/2025" = 3 Agustus)
     let day, month, year;
     if (a > 12 && b <= 12) {
-      day = a; month = b; year = c;            // DD/MM/YYYY
+      day = a; month = b; year = c;            
     } else if (b > 12 && a <= 12) {
-      day = b; month = a; year = c;            // MM/DD/YYYY
+      day = b; month = a; year = c;            
     } else {
-      day = b; month = a; year = c;            // default MM/DD/YYYY
+      day = b; month = a; year = c;            
     }
 
     const d = new Date(year, month - 1, day);
     return isNaN(d) ? null : d;
   }
 
-  // Format label singkat: "3 Agu 2025"
   function formatDateIdShort(date) {
     return date.toLocaleDateString('id-ID', {
       day: 'numeric',
@@ -82,8 +74,6 @@ export default function StatistikPage() {
           skipEmptyLines: true,
           complete: (results) => {
             const rows = results.data;
-
-            // cari kolom tanggal & status validasi
             const sampleRow = rows[0] || {};
             const tanggalKey = Object.keys(sampleRow).find((k) =>
               k && k.toLowerCase().includes('tanggal')
@@ -92,8 +82,7 @@ export default function StatistikPage() {
               k && k.toLowerCase().includes('status') && k.toLowerCase().includes('valid')
             );
 
-            // Hitung jumlah aktivitas per tanggal (valid saja)
-            const countsByIso = new Map(); // key: 'YYYY-MM-DD' -> count
+            const countsByIso = new Map();
             rows.forEach((row) => {
               const status = (row[statusKey] || '').toString().trim();
               if (status === 'Tidak Valid') return;
@@ -102,7 +91,6 @@ export default function StatistikPage() {
               const d = parseDateSmart(rawDate);
               if (!d) return;
 
-              // Kunci ISO harian
               const isoKey = [
                 d.getFullYear(),
                 String(d.getMonth() + 1).padStart(2, '0'),
@@ -112,14 +100,12 @@ export default function StatistikPage() {
               countsByIso.set(isoKey, (countsByIso.get(isoKey) || 0) + 1);
             });
 
-            // Urutkan tanggal
             const sortedIsoDates = Array.from(countsByIso.keys()).sort();
 
-            // Siapkan labels & data
             const labels = sortedIsoDates.map((iso) => {
               const [y, m, dd] = iso.split('-').map(Number);
               const d = new Date(y, m - 1, dd);
-              return formatDateIdShort(d); // "3 Agu 2025"
+              return formatDateIdShort(d);
             });
             const data = sortedIsoDates.map((iso) => countsByIso.get(iso));
 
@@ -161,7 +147,6 @@ export default function StatistikPage() {
 
         {chartData ? (
           <div className="bg-white p-4 rounded-lg shadow-md">
-            {/* Container tinggi adaptif supaya tetap besar di HP */}
             <div className="w-full h-[420px] sm:h-[480px] md:h-[560px]">
               <Bar
                 data={chartData}
@@ -181,6 +166,13 @@ export default function StatistikPage() {
                       callbacks: {
                         title: (items) => items[0]?.label || '',
                       },
+                    },
+                    datalabels: {
+                      anchor: 'end',
+                      align: 'top',
+                      color: '#333',
+                      font: { weight: 'bold', size: 12 },
+                      formatter: (value) => value,
                     },
                   },
                   layout: { padding: 8 },
